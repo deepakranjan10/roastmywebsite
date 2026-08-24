@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { SeoPageLayout, faqJsonLd } from '@/components/seo-page-layout';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://roastmywebsite.lol';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://roastmywebsite.lol';
 
 export const metadata: Metadata = {
   title: 'SEO Roast — Get Your Website\'s SEO Roasted (Free)',
