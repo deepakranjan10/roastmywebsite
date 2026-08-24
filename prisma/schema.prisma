@@ -1,0 +1,113 @@
+// RoastMyWebsite.lol data model.
+//
+// Anonymous users can run audits without an account (User is optional on
+// Audit). Accounts unlock history/comparison later — not required for the
+// MVP loop of submit -> roast -> share.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+
+  audits Audit[]
+}
+
+model Website {
+  id        String   @id @default(cuid())
+  domain    String   @unique
+  url       String
+  createdAt DateTime @default(now())
+
+  audits Audit[]
+}
+
+model Audit {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  websiteId   String
+  website     Website @relation(fields: [websiteId], references: [id])
+  userId      String?
+  user        User?   @relation(fields: [userId], references: [id])
+
+  personality   String
+  overallScore  Int
+  overallStatus String
+  overallVerdict String
+
+  finalUrl      String
+  screenshotUrl String?
+
+  // Public leaderboard opt-in. Defaults to false: a URL is never published
+  // without the submitter explicitly checking the box.
+  isPublic Boolean @default(false)
+
+  scores    AuditScore[]
+  findings  AuditFinding[]
+  roast     Roast?
+  shareLinks ShareLink[]
+
+  @@index([websiteId])
+  @@index([isPublic, overallScore])
+  @@index([createdAt])
+}
+
+model AuditScore {
+  id      String @id @default(cuid())
+  auditId String
+  audit   Audit  @relation(fields: [auditId], references: [id], onDelete: Cascade)
+
+  category    String
+  score       Int
+  status      String
+  workingWell Json
+
+  @@index([auditId])
+}
+
+model AuditFinding {
+  id      String @id @default(cuid())
+  auditId String
+  audit   Audit  @relation(fields: [auditId], references: [id], onDelete: Cascade)
+
+  findingId    String
+  category     String
+  severity     String
+  problem      String
+  whyItMatters String
+  evidence     String
+  fix          String
+
+  @@index([auditId])
+}
+
+model Roast {
+  id      String @id @default(cuid())
+  auditId String @unique
+  audit   Audit  @relation(fields: [auditId], references: [id], onDelete: Cascade)
+
+  personality String
+  headline    String
+  lines       Json
+  closer      String
+}
+
+model ShareLink {
+  id        String   @id @default(cuid())
+  auditId   String
+  audit     Audit    @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  viewCount Int      @default(0)
+
+  @@index([auditId])
+}
