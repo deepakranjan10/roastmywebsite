@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-ink-950 text-white font-body antialiased;
+    background-image: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255, 45, 85, 0.18), transparent 60%);
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    background: #ff2d55;
+    color: white;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0f0f17;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2a2a38;
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3a3a4a;
+  }
+}
+
+@layer utilities {
+  .text-gradient-flame {
+    background: linear-gradient(135deg, #ff9d5c, #ff2d55);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .card-surface {
+    @apply bg-ink-800/80 border border-white/10 backdrop-blur-sm;
+  }
+
+  .grain-overlay {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  }
+}
