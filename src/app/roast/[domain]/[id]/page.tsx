@@ -10,7 +10,7 @@ import { FindingList } from '@/components/finding-list';
 import { ShareButtons } from '@/components/share-buttons';
 import { PERSONALITY_LABELS } from '@/types/audit';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://roastmywebsite.lol';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://roastmywebsite.lol';
 
 interface Props {
   params: { domain: string; id: string };

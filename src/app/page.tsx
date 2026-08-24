@@ -4,7 +4,7 @@ import { RoastForm } from '@/components/roast-form';
 import { ExampleRoastCard } from '@/components/example-roast-card';
 import Link from 'next/link';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://roastmywebsite.lol';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://roastmywebsite.lol';
 
 const JSON_LD = {
   '@context': 'https://schema.org',
